@@ -1,8 +1,8 @@
 const Logo = () => {
   return (
-    <h3 className='logo' style={{ textAlign: 'center' }}>
+    <h4 className='logo' style={{ textAlign: 'center' }}>
       CAREERPORT
-    </h3>
+    </h4>
   );
 };
 
