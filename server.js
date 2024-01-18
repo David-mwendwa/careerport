@@ -5,7 +5,7 @@ import express from 'express';
 import { nanoid } from 'nanoid';
 
 const jobs = [
-  { id: nanoid(), company: 'google', position: 'frontend' },
+  { id: 1, company: 'google', position: 'frontend' },
   { id: nanoid(), company: 'facebook', position: 'backend' },
   { id: nanoid(), company: 'apple', position: 'full-stack developer' },
 ];
@@ -42,6 +42,17 @@ app.get('/api/v1/jobs/:id', (req, res) => {
     return res.status(404).json({ msg: `No job with id: ${id}` });
   }
   res.status(200).json({ job });
+});
+
+app.patch('/api/v1/jobs/:id', (req, res) => {
+  const { company, position } = req.body;
+  const { id } = req.params;
+  let job = jobs.find((job) => job.id == id);
+  if (!job) {
+    return res.status(404).json({ msg: `No job with id: ${id}` });
+  }
+  job = { ...job, company, position };
+  res.status(200).json({ msg: 'job modified', job });
 });
 
 const PORT = process.env.PORT || 5000;
