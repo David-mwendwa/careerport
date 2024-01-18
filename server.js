@@ -21,8 +21,14 @@ app.get('/', (req, res) => {
   res.send('Hello World');
 });
 
-app.post('/', (req, res) => {
-  res.json({ message: 'Data received via POST requirest', data: req.body });
+app.post('/api/v1/jobs', (req, res) => {
+  const { company, position } = req.body;
+  if (!company || !position) {
+    return res.status(400).json({ msg: 'Please provide company and position' });
+  }
+  const job = { id: nanoid(10), company, position };
+  jobs.push(job);
+  res.json({ job });
 });
 
 app.get('/api/v1/jobs', (req, res) => {
