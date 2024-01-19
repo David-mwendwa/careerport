@@ -12,7 +12,7 @@ import {
 
 // router.get('/', getAllJobs)
 
-router.route('/').get(createJob).post(getAllJobs);
+router.route('/').get(getAllJobs).post(createJob);
 router.route('/:id').get(getJob).patch(updateJob).delete(deleteJob);
 
 export default router;

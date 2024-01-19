@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 
 const jobSchema = new mongoose.Schema(
   {
-    company: String,
-    position: String,
+    company: { type: String, require: true },
+    position: { type: String, require: true },
     jobStatus: {
       type: String,
       enum: ['interview', 'declined', 'pending'],
