@@ -9,7 +9,8 @@ const jobs = [
 ];
 
 export const getAllJobs = async (req, res) => {
-  res.status(200).json({ jobs });
+  const jobs = await Job.find({});
+  res.status(200).json({ success: true, jobs });
 };
 
 export const createJob = async (req, res) => {
