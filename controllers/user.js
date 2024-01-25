@@ -12,6 +12,13 @@ export const getApplicationStats = (req, res) => {
   res.status(StatusCodes.OK).json({ message: 'get app stats' });
 };
 
-export const updateUser = (req, res) => {
-  res.status(StatusCodes.OK).json({ message: 'updated user' });
+export const updateUser = async (req, res) => {
+  const obj = { ...req.body };
+  delete obj.passwird;
+  const updatedUser = await User.findByIdAndUpdate(req.user.userId, obj, {
+    new: true,
+  });
+  res
+    .status(StatusCodes.OK)
+    .json({ message: 'updated user', user: updatedUser });
 };
