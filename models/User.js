@@ -19,4 +19,11 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+// removes password from user documents
+userSchema.methods.toJSON = function () {
+  let obj = this.toObject();
+  delete obj.password;
+  return obj;
+};
+
 export default mongoose.model('User', userSchema);
