@@ -5,6 +5,7 @@ import { comparePassword, hashPassword } from '../utils/passwordUtils.js';
 import { UnauthenticatedError } from '../errors/customErrors.js';
 import { createJWT } from '../utils/tokenUtils.js';
 
+// ================ AUTH CONTROLLERS ========================== //
 export const register = async (req, res) => {
   const isFirstAccount = (await User.countDocuments()) === 0;
   req.body.role = isFirstAccount ? 'admin' : 'user';
@@ -32,4 +33,14 @@ export const login = async (req, res) => {
     secure: process.env.NODE_ENV === 'production',
   });
   res.status(StatusCodes.OK).json({ success: true, token });
+};
+
+export const logout = (req, res) => {
+  res.cookie('token', 'logout', {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+  res
+    .status(StatusCodes.OK)
+    .json({ success: true, message: 'you logged out!' });
 };
