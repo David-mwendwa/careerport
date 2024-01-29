@@ -12,17 +12,18 @@ export const register = async (req, res) => {
   const hashedPassword = await hashPassword(req.body.password);
   req.body.password = hashedPassword;
 
-  const user = await User.create(req.body);
+  await User.create(req.body);
   res
     .status(StatusCodes.CREATED)
-    .json({ success: true, message: 'user created' });
+    .json({ success: true, message: 'registered successfully' });
 };
 
 export const login = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
   const isValidUser =
     user && (await comparePassword(req.body.password, user.password));
-  if (!isValidUser) throw new UnauthenticatedError('invalid credentials');
+  if (!isValidUser)
+    throw new UnauthenticatedError('incorrect email or password');
 
   const token = createJWT({ userId: user._id, role: user.role });
   const oneDay = 1000 * 60 * 60 * 24;
@@ -35,7 +36,7 @@ export const login = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  res.cookie('token', null, {
+  res.cookie('token', '', {
     httpOnly: true,
     expires: new Date(Date.now()),
   });
