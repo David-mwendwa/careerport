@@ -15,7 +15,6 @@ export const action = async ({ request }) => {
   const data = Object.fromEntries(formData);
   try {
     const response = await customFetch.post('/jobs', data);
-    console.log('new job', response);
     toast.success('Job created');
     return redirect('all-jobs');
   } catch (error) {
