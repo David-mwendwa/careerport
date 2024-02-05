@@ -3,6 +3,7 @@ import customFetch from '../utils/customFetch';
 import Wrapper from '../assets/wrappers/DashboardFormPage';
 import { FormRow, FormRowSelect } from '../components';
 import { JOB_STATUS, JOB_TYPE } from '../../../utils/constants';
+import { toast } from 'react-toastify';
 
 export const loader = async ({ params }) => {
   try {
@@ -14,8 +15,17 @@ export const loader = async ({ params }) => {
   }
 };
 
-export const action = async () => {
-  return null;
+export const action = async ({ request, params }) => {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+  try {
+    await customFetch.patch(`/jobs/${params.id}`, data);
+    toast.success('Job Edited successfully');
+    return redirect('/dashboard/all-jobs');
+  } catch (error) {
+    toast.error(error?.response?.data?.message || error?.message);
+    return error;
+  }
 };
 
 const EditJob = () => {
