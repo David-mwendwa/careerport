@@ -15,6 +15,10 @@ import userRouter from './routes/userRouter.js';
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
 import { authenticateUser } from './middleware/auth.js';
 
+// public
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
 const app = express();
 
 app.use(cookieParser());
@@ -22,6 +26,9 @@ app.use(express.json());
 if (!/production/.test(process.env.NODE_ENV)) {
   app.use(morgan('dev'));
 }
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+app.use(express.static(path.resolve(__dirname, './public/uploads')));
 
 app.get('/', (req, res) => {
   res.send('Hello World');
