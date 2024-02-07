@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import express from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
+import cloudinary from 'cloudinary';
 
 // routers
 import jobRouter from './routes/jobRouter.js';
@@ -18,6 +19,12 @@ import { authenticateUser } from './middleware/auth.js';
 // public
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const app = express();
 
