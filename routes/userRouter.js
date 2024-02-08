@@ -5,7 +5,7 @@ import {
   updateUser,
 } from '../controllers/user.js';
 import { validateUpdateUserInput } from '../middleware/validationMiddleware.js';
-import { authorizePermissions } from '../middleware/auth.js';
+import { authorizePermissions, checkForTestUser } from '../middleware/auth.js';
 import upload from '../middleware/multerMiddleware.js';
 
 const router = Router();
@@ -16,6 +16,11 @@ router
   .get(authorizePermissions('admin'), getApplicationStats);
 router
   .route('/update-user')
-  .patch(upload.single('avatar'), validateUpdateUserInput, updateUser);
+  .patch(
+    checkForTestUser,
+    upload.single('avatar'),
+    validateUpdateUserInput,
+    updateUser
+  );
 
 export default router;
