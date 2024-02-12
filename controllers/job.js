@@ -2,6 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import Job from '../models/Job.js';
 import mongoose from 'mongoose';
 import dayjs from 'dayjs';
+import moment from 'moment';
 
 export const getAllJobs = async (req, res) => {
   const jobs = await Job.find({ createdBy: req.user.userId });
@@ -64,11 +65,11 @@ export const showStats = async (req, res) => {
         _id: { year, month },
         count,
       } = item;
-      const date = dayjs
-        .day()
-        .month(month - 1)
-        .year(year)
-        .format('MMM YY');
+      // const date = day()
+      //   .month(month - 1)
+      //   .year(year)
+      //   .format('MMM YY');
+      const date = moment(`${month} ${year}`, 'MM YYYY').format('MMM YY');
 
       return { date, count };
     })
