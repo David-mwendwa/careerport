@@ -5,11 +5,12 @@ import dayjs from 'dayjs';
 import moment from 'moment';
 
 export const getAllJobs = async (req, res) => {
-  console.log(req.query);
-  const jobs = await Job.find({
-    createdBy: req.user.userId,
-    position: req.query.search,
-  });
+  const { search } = req.query;
+  const queryObject = { createdBy: req.user.userId };
+  if (search) {
+    queryObject.position = req.query.search;
+  }
+  const jobs = await Job.find(queryObject);
   res.status(StatusCodes.OK).json({ success: true, jobs });
 };
 
