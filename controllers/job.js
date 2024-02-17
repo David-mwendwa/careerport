@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import moment from 'moment';
 
 export const getAllJobs = async (req, res) => {
-  const { search, jobStatus, jobType } = req.query;
+  const { search, jobStatus, jobType, sort } = req.query;
   const queryObject = { createdBy: req.user.userId };
   if (search) {
     queryObject.$or = [
